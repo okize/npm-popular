@@ -1,34 +1,87 @@
 # modules
 registry = require('npm-stats')()
+when_ = require 'when'
 
-module.exports = (args) ->
+clearTerminal = ->
+  process.stdout.write '\u001B[2J\u001B[0;0f'
 
-  print = (name, total) ->
+printAuthorModules = (author, count) ->
+  console.log "#{author} has published #{count} modules:\n"
 
-    console.log "#{name} has #{total} downloads"
+printModuleStats = (module) ->
+  console.log "* #{module.name} has been download #{module.downloads} times"
 
-  getDownloads = (name, i) ->
-    registry.module(name).downloads( (err, data) ->
+printModuleTotals = (data) ->
+  printModuleStats module for module in data
 
-      throw err if err
+getTotalDownloads = (data, key) ->
+  total = Object.keys(data).reduce ((previous, i) ->
+    previous + data[i][key]
+  ), 0
 
-      arr = [0]
-      for downloads in data
-        arr.push downloads.value
+sortModulesByDownloads = (arr, key) ->
+  sorted = arr.sort (a, b) ->
+    x = a[key]
+    y = b[key]
+    if (x > y) then -1 else (if (x < y) then 1 else 0)
 
-      total = arr.reduce (a,b) ->
-        return a + b
+getAuthorsModules = (author) ->
+  deferred = when_.defer()
+  registry.user(author).list( (err, data) ->
+    if err
+      deferred.reject new Error(err)
+    if data.length == 0
+      deferred.reject(new Error("No NPM modules found for user #{author}!"))
+    else
+      deferred.resolve(data)
+  )
+  deferred.promise
 
-      print name, total
+getModuleDownloads = (module) ->
+  deferred = when_.defer()
+  registry.module(module).downloads( (err, data) ->
+    if err
+      deferred.reject(new Error(err))
+    else
+      obj =
+        name: module
+        downloads: getTotalDownloads(data, 'value')
+      deferred.resolve(obj)
+  )
+  deferred.promise
 
+getAllModuleDownloads = (modules) ->
+  deferreds = []
+  i = 0
+  len = modules.length
+  while i < len
+    deferreds.push(getModuleDownloads(modules[i]))
+    i++
+  when_.all(deferreds)
+
+module.exports = (author) ->
+
+  # clear the terminal window
+  clearTerminal()
+
+  getAuthorsModules(author).then( (modules) ->
+
+    printAuthorModules(author, modules.length)
+
+    getAllModuleDownloads(modules).then( (data) ->
+      sortModulesByDownloads(data, 'downloads')
+    , (err) ->
+      console.error(err)
     )
 
-  registry.user(args[0]).list( (err, data) ->
+  , (err) ->
 
-    throw err if err
+    console.error(err)
 
-    for name, i in data
+  ).then( (data) ->
 
-      getDownloads(name, i)
+    # console.log getTotalDownloads data, 'downloads'
+
+    printModuleTotals(data)
 
   )

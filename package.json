@@ -1,0 +1,44 @@
+{
+  "name": "npm-popular",
+  "version": "0.1.0",
+  "description": "CLI tool that returns a list of an author's NPM modules ordered by number of downloads.",
+  "preferGlobal": true,
+  "main": "./bin/npm-popular.js",
+  "bin": {
+    "npm-popular": "./bin/npm-popular.js"
+  },
+  "keywords": [
+    "npm",
+    "popular",
+    "modules",
+    "downloads"
+  ],
+  "dependencies": {
+    "optimist": "0.6.x",
+    "npm-stats": "0.2.x"
+  },
+  "devDependencies": {
+    "coffee-script": "1.6.x"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/okize/npm-popular.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Morgan Wigmanich",
+    "email": "okize123@gmail.com",
+    "url": "https://github.com/okize"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/okize/npm-popular/issues"
+  },
+  "homepage": "https://github.com/okize/npm-popular",
+}

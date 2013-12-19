@@ -19,7 +19,7 @@ displayHelp = ->
 module.exports = (argv) ->
 
   # args passed
-  return popular(argv._) if argv._.length > 0
+  return popular(argv._[0]) if argv._.length > 0
 
   # --version
   return displayVersion() if argv.version or argv.V

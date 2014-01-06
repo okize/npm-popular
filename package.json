@@ -16,7 +16,7 @@
   "dependencies": {
     "optimist": "0.6.x",
     "when": "2.7.x",
-    "npm-stats": "0.2.x"
+    "npm-stats": "0.3.x"
   },
   "devDependencies": {
     "coffee-script": "1.6.x"

@@ -19,11 +19,11 @@
     "npm-stats": "0.3.x"
   },
   "devDependencies": {
-    "coffee-script": "1.6.x"
+    "coffee-script": "1.7.x"
   },
   "engines": {
-    "node": ">=0.8.0",
-    "npm": ">=1.2.x"
+    "node": ">=0.10.0",
+    "npm": ">=1.4.x"
   },
   "repository": {
     "type": "git",

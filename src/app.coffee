@@ -1,9 +1,16 @@
 # modules
 registry = require('npm-stats')()
 when_ = require 'when'
+request = require 'request'
 
 clearTerminal = ->
   process.stdout.write '\u001B[2J\u001B[0;0f'
+
+dateToday = ->
+  now = new Date()
+  day = ('0' + now.getDate()).slice(-2)
+  month = ('0' + (now.getMonth() + 1)).slice(-2)
+  "#{now.getFullYear()}-#{month}-#{day}"
 
 printAuthorModules = (author, count) ->
   console.log "#{author} has published #{count} modules:\n"
@@ -13,6 +20,9 @@ printModuleStats = (module) ->
 
 printModuleTotals = (data) ->
   printModuleStats module for module in data
+
+getDownloadsUrl = (module) ->
+  "https://api.npmjs.org/downloads/range/2012-01-01:#{dateToday()}/#{module}"
 
 getTotalDownloads = (data, key) ->
   total = Object.keys(data).reduce ((previous, i) ->
@@ -39,14 +49,15 @@ getAuthorsModules = (author) ->
 
 getModuleDownloads = (module) ->
   deferred = when_.defer()
-  registry.module(module).downloads( (err, data) ->
+  url = getDownloadsUrl(module)
+  request(url, (err, response, body) ->
     if err
-      deferred.reject(new Error(err))
+      deferred.reject new Error(err)
     else
       obj =
         name: module
-        downloads: getTotalDownloads(data, 'value')
-      deferred.resolve(obj)
+        downloads: getTotalDownloads JSON.parse(body).downloads, 'downloads'
+      deferred.resolve obj
   )
   deferred.promise
 
@@ -55,7 +66,7 @@ getAllModuleDownloads = (modules) ->
   i = 0
   len = modules.length
   while i < len
-    deferreds.push(getModuleDownloads(modules[i]))
+    deferreds.push getModuleDownloads(modules[i])
     i++
   when_.all(deferreds)
 
@@ -71,12 +82,12 @@ module.exports = (author) ->
     getAllModuleDownloads(modules).then( (data) ->
       sortModulesByDownloads(data, 'downloads')
     , (err) ->
-      console.error(err)
+      console.error err
     )
 
   , (err) ->
 
-    console.error(err)
+    console.error err
 
   ).then( (data) ->
 

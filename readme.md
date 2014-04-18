@@ -1,5 +1,3 @@
-# This module is non-functional until [this issue](https://github.com/npm/npm-www/issues/328) is resolved.
-
 # npm-popular [![NPM version](https://badge.fury.io/js/npm-popular.png)](http://badge.fury.io/js/npm-popular) [![NPM version](https://david-dm.org/okize/npm-popular.png)](https://david-dm.org/okize/npm-popular)
 
 CLI tool that returns a list of an author's NPM modules ordered by number of downloads.

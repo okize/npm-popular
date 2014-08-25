@@ -16,7 +16,7 @@
   "dependencies": {
     "optimist": "0.6.x",
     "npm-stats": "0.3.x",
-    "request": "2.39.x",
+    "request": "2.40.x",
     "when": "3.4.x"
   },
   "devDependencies": {

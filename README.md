@@ -1,4 +1,8 @@
-# npm-popular [![NPM version](https://badge.fury.io/js/npm-popular.png)](http://badge.fury.io/js/npm-popular) [![NPM version](https://david-dm.org/okize/npm-popular.png)](https://david-dm.org/okize/npm-popular)
+[![NPM version](http://img.shields.io/npm/v/npm-popular.svg?style=flat)](https://www.npmjs.org/package/npm-popular)
+[![Dependency Status](http://img.shields.io/david/okize/npm-popular.svg?style=flat)](https://david-dm.org/okize/npm-popular)
+[![Downloads](http://img.shields.io/npm/dm/npm-popular.svg?style=flat)](https://www.npmjs.org/package/npm-popular)
+
+# npm-popular
 
 CLI tool that returns a list of an author's NPM modules ordered by number of downloads.
 
@@ -19,5 +23,3 @@ $ npm-popular substack
 ## License
 
 Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
-
-[![NPM](https://nodei.co/npm/npm-popular.png)](https://nodei.co/npm/npm-popular/)

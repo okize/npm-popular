@@ -1,6 +1,6 @@
 {
   "name": "npm-popular",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "CLI tool that returns a list of an author's NPM modules ordered by number of downloads.",
   "preferGlobal": true,
   "main": "./bin/npm-popular.js",

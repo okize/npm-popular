@@ -4,17 +4,32 @@
 
 # npm-popular
 
+## Description
 CLI tool that returns a list of an author's NPM modules ordered by number of downloads.
 
-## Example
+## Usage
 
 ```
-$ npm-popular substack
+Usage:
+
+  npm-popular [npm-author-name] -options
+
+Description:
+
+  CLI tool that returns a list of an author's NPM modules ordered by number of downloads.
+
+Options:
+
+  -h, --help           Output usage information
+  -V, --version        Output version number
+
+Examples:
+
+  $ npm-popular isaacs
+  $ npm-popular substack
 ```
 
-## Installation
-
-### Installing via npm (node package manager)
+## Installing
 
 ```
   $ [sudo] npm install -g npm-popular

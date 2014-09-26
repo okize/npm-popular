@@ -18,6 +18,10 @@ displayHelp = ->
 
 module.exports = (argv) ->
 
+  # flags we care about for app operation
+  flags =
+    month: if argv.month or argv.m then true else false
+
   # args passed
   return popular(argv._[0]) if argv._.length > 0
 

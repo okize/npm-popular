@@ -8,6 +8,7 @@ Description:
 
 Options:
 
+  -m, --month          Returns download data for the past month
   -h, --help           Output usage information
   -V, --version        Output version number
 

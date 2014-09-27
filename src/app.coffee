@@ -12,8 +12,11 @@ dateToday = ->
   month = ('0' + (now.getMonth() + 1)).slice(-2)
   "#{now.getFullYear()}-#{month}-#{day}"
 
-printAuthorModules = (author, count) ->
-  console.log "#{author} has published #{count} modules:\n"
+printAuthorModules = (type, author, count) ->
+  if type is 'month'
+    console.log "#{author}'s module downloads in the last month:\n"
+  else
+    console.log "#{author} has published #{count} modules:\n"
 
 printModuleStats = (module) ->
   console.log "* #{module.name} has been downloaded #{module.downloads} times"
@@ -21,13 +24,19 @@ printModuleStats = (module) ->
 printModuleTotals = (data) ->
   printModuleStats module for module in data
 
-getDownloadsUrl = (module) ->
-  "https://api.npmjs.org/downloads/range/2012-01-01:#{dateToday()}/#{module}"
+getDownloadsUrl = (type, module) ->
+  if type is 'month'
+    "https://api.npmjs.org/downloads/point/last-month/#{module}"
+  else
+    "https://api.npmjs.org/downloads/range/2012-01-01:#{dateToday()}/#{module}"
 
 getTotalDownloads = (data, key) ->
-  total = Object.keys(data).reduce ((previous, i) ->
-    previous + data[i][key]
-  ), 0
+  if isNaN(data)
+    total = Object.keys(data).reduce ((previous, i) ->
+      previous + data[i][key]
+    ), 0
+  else
+    data
 
 sortModulesByDownloads = (arr, key) ->
   sorted = arr.sort (a, b) ->
@@ -47,9 +56,9 @@ getAuthorsModules = (author) ->
   )
   deferred.promise
 
-getModuleDownloads = (module) ->
+getModuleDownloads = (module, type) ->
   deferred = when_.defer()
-  url = getDownloadsUrl(module)
+  url = getDownloadsUrl(type, module)
   request(url, (err, response, body) ->
     if err
       deferred.reject new Error(err)
@@ -61,25 +70,27 @@ getModuleDownloads = (module) ->
   )
   deferred.promise
 
-getAllModuleDownloads = (modules) ->
+getAllModuleDownloads = (modules, type) ->
   deferreds = []
   i = 0
   len = modules.length
   while i < len
-    deferreds.push getModuleDownloads(modules[i])
+    deferreds.push getModuleDownloads(modules[i], type)
     i++
   when_.all(deferreds)
 
-module.exports = (author) ->
+module.exports = (author, opts) ->
 
   # clear the terminal window
   clearTerminal()
 
   getAuthorsModules(author).then( (modules) ->
 
-    printAuthorModules(author, modules.length)
+    type = if opts.month then 'month' else 'all-time'
 
-    getAllModuleDownloads(modules).then( (data) ->
+    printAuthorModules(type, author, modules.length)
+
+    getAllModuleDownloads(modules, type).then( (data) ->
       sortModulesByDownloads(data, 'downloads')
     , (err) ->
       console.error err

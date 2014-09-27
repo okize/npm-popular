@@ -19,7 +19,7 @@ printAuthorModules = (type, author, count) ->
     console.log "#{author} has published #{count} modules:\n"
 
 printModuleStats = (module) ->
-  console.log "* #{module.name} has been downloaded #{module.downloads} times"
+  console.log "☉ #{module.name} has been downloaded #{module.downloads} times"
 
 printModuleTotals = (data) ->
   printModuleStats module for module in data

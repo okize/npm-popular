@@ -23,7 +23,7 @@ module.exports = (argv) ->
     month: if argv.month or argv.m then true else false
 
   # args passed
-  return popular(argv._[0]) if argv._.length > 0
+  return popular(argv._[0], flags) if argv._.length > 0
 
   # --version
   return displayVersion() if argv.version or argv.V

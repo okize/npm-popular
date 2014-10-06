@@ -14,10 +14,10 @@
     "downloads"
   ],
   "dependencies": {
-    "optimist": "0.6.x",
-    "npm-stats": "1.x.x",
-    "request": "2.44.x",
-    "when": "3.4.x"
+    "optimist": "~0.6.0",
+    "npm-stats": "~1.0.0",
+    "request": "~2.45.0",
+    "when": "~3.5.0"
   },
   "devDependencies": {
     "coffee-script": "*",

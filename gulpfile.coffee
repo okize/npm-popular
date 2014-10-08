@@ -7,6 +7,7 @@ coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
 template = require 'gulp-template'
 clean = require 'del'
+runSequence = require 'run-sequence'
 
 # configuration
 appRoot = __dirname
@@ -46,7 +47,7 @@ gulp.task 'clean', ->
 
 # generates readme.md
 gulp.task 'docs', ->
-  log 'create documentation'
+  log 'creating documentation'
   gulp
     .src(readmeTemplate)
     .pipe(
@@ -73,17 +74,12 @@ gulp.task 'build', ->
 
 # bumps patch version
 gulp.task 'bump', ->
-  log 'bump version...'
+  log 'bumping version'
 
 # publishes modules to npm
 gulp.task 'publish', ->
-  log 'publish npm-popular...'
+  log "publishing #{getPackage().name} version #{getPackage().version}"
 
-# deploys application
-gulp.task 'release', [
-  'docs',
-  'clean',
-  'build',
-  'bump',
-  'publish'
-]
+# releases new version of module
+gulp.task 'release', (cb) ->
+  runSequence 'clean', ['docs', 'build'], 'bump', 'publish', cb

@@ -29,7 +29,8 @@
     "gulp-template": "*",
     "gulp-util": "*",
     "mocha": "*",
-    "nock": "*"
+    "nock": "*",
+    "run-sequence": "*"
   },
   "engines": {
     "node": ">=0.10.0",

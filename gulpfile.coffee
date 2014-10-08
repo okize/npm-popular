@@ -18,6 +18,10 @@ buildDir = 'lib'
 log = (msg) ->
   gutil.log gutil.colors.blue(msg)
 
+# returns parsed package.json
+getPackage = ->
+  JSON.parse fs.readFileSync('./package.json', 'utf8')
+
 # default task that's run with 'gulp'
 gulp.task 'default', [
   'watch'
@@ -28,13 +32,6 @@ gulp.task 'watch', ->
   log 'watching files...'
   gulp.watch sourceDir, ['build']
 
-# removes distribution folder
-gulp.task 'clean', ->
-  log 'deleting build diectory'
-  gulp
-    .src(buildDir, read: false)
-    .pipe(clean())
-
 # lints coffeescript
 gulp.task 'lint', ->
   log 'linting coffeescript'
@@ -42,6 +39,27 @@ gulp.task 'lint', ->
     .src(sourceDir)
     .pipe(coffeelint())
     .pipe(coffeelint.reporter())
+
+# removes distribution folder
+gulp.task 'clean', ->
+  log 'deleting build diectory'
+  gulp
+    .src(buildDir, read: false)
+    .pipe(clean())
+
+# generates readme.md
+gulp.task 'docs', ->
+  log 'create documentation'
+  gulp
+    .src(readmeTemplate)
+    .pipe(
+      template
+        description: getPackage().description
+        helpfile: fs.readFileSync './lang/help.txt', 'utf8'
+    )
+    .pipe(
+      gulp.dest './'
+    )
 
 # builds coffeescript source into deployable javascript
 gulp.task 'build', ->
@@ -56,23 +74,19 @@ gulp.task 'build', ->
       gulp.dest buildDir
     )
 
-# generates readme.md
-gulp.task 'docs', ->
-  log 'create documentation'
-  gulp
-    .src(readmeTemplate)
-    .pipe(
-      template
-        description: JSON.parse(fs.readFileSync './package.json', 'utf8').description
-        helpfile: fs.readFileSync './lang/help.txt', 'utf8'
-    )
-    .pipe(
-      gulp.dest './'
-    )
+# bumps patch version
+gulp.task 'bump', ->
+  log 'bump version...'
+
+# publishes modules to npm
+gulp.task 'publish', ->
+  log 'publish npm-popular...'
 
 # deploys application
-gulp.task 'deploy', [
+gulp.task 'release', [
   'docs',
   'clean',
-  'build'
+  'build',
+  'bump',
+  'publish'
 ]

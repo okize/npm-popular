@@ -6,9 +6,10 @@ gutil = require 'gulp-util'
 coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
 template = require 'gulp-template'
+bump = require 'gulp-bump'
 clean = require 'del'
 runSequence = require 'run-sequence'
-bump = require 'gulp-bump'
+spawn = require('child_process').spawn
 
 # configuration
 appRoot = __dirname
@@ -88,10 +89,13 @@ gulp.task 'bump', ->
       gulp.dest appRoot
     )
 
-# publishes modules to npm
-gulp.task 'publish', ->
+# publishes module to npm
+gulp.task 'publish', (done) ->
   log "publishing #{getPackage().name} version #{getPackage().version}"
+  spawn('npm', ['publish'],
+    stdio: 'inherit'
+  ).on 'close', done
 
 # releases new version of module
-gulp.task 'release', (cb) ->
-  runSequence 'clean', ['docs', 'build'], 'bump', 'publish', cb
+gulp.task 'release', (done) ->
+  runSequence 'clean', ['docs', 'build'], 'bump', 'publish', done

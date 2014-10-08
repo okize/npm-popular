@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "coffee-script": "*",
+    "del": "*",
     "gulp": "*",
     "gulp-clean": "*",
     "gulp-coffee": "*",

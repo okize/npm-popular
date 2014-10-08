@@ -6,7 +6,7 @@ gutil = require 'gulp-util'
 coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
 template = require 'gulp-template'
-clean = require 'gulp-clean'
+clean = require 'del'
 
 # configuration
 appRoot = __dirname
@@ -42,10 +42,7 @@ gulp.task 'lint', ->
 
 # removes distribution folder
 gulp.task 'clean', ->
-  log 'deleting build diectory'
-  gulp
-    .src(buildDir, read: false)
-    .pipe(clean())
+  clean [buildDir]
 
 # generates readme.md
 gulp.task 'docs', ->

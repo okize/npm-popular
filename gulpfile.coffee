@@ -8,6 +8,7 @@ coffeelint = require 'gulp-coffeelint'
 template = require 'gulp-template'
 clean = require 'del'
 runSequence = require 'run-sequence'
+bump = require 'gulp-bump'
 
 # configuration
 appRoot = __dirname
@@ -64,10 +65,13 @@ gulp.task 'build', ->
   log 'compiling coffeescript'
   gulp
     .src(sourceDir)
-    .pipe(coffee(
-      bare: true
-      sourceMap: false
-    ).on('error', gutil.log))
+    .pipe(
+      coffee(
+        bare: true
+        sourceMap: false
+      )
+      .on('error', gutil.log)
+    )
     .pipe(
       gulp.dest buildDir
     )
@@ -75,6 +79,14 @@ gulp.task 'build', ->
 # bumps patch version
 gulp.task 'bump', ->
   log 'bumping version'
+  gulp
+    .src('./package.json')
+    .pipe(
+      bump type: 'patch'
+    )
+    .pipe(
+      gulp.dest appRoot
+    )
 
 # publishes modules to npm
 gulp.task 'publish', ->

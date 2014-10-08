@@ -23,6 +23,7 @@
     "coffee-script": "*",
     "del": "*",
     "gulp": "*",
+    "gulp-bump": "*",
     "gulp-clean": "*",
     "gulp-coffee": "*",
     "gulp-coffeelint": "*",

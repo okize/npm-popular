@@ -32,9 +32,14 @@ getDownloadsUrl = (type, module) ->
 
 getTotalDownloads = (data, key) ->
   if isNaN(data)
-    total = Object.keys(data).reduce ((previous, i) ->
-      previous + data[i][key]
-    ), 0
+    # apparently it's possible to have a package registered with NPM that
+    # is invalid & is returned as undefined which necessitates this type check
+    if typeof data is 'object'
+      total = Object.keys(data).reduce ((previous, i) ->
+        previous + data[i][key]
+      ), 0
+    else
+      data = 0
   else if (data == null)
     data = 0
   else
@@ -103,6 +108,8 @@ module.exports = (author, opts) ->
     console.error err
 
   ).then( (data) ->
+
+    # console.log getTotalDownloads data, 'downloads'
 
     printModuleTotals(data)
 

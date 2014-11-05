@@ -35,6 +35,8 @@ getTotalDownloads = (data, key) ->
     total = Object.keys(data).reduce ((previous, i) ->
       previous + data[i][key]
     ), 0
+  else if (data == null)
+    data = 0
   else
     data
 
@@ -101,8 +103,6 @@ module.exports = (author, opts) ->
     console.error err
 
   ).then( (data) ->
-
-    # console.log getTotalDownloads data, 'downloads'
 
     printModuleTotals(data)
 

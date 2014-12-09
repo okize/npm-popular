@@ -8,11 +8,12 @@ Description:
 
 Options:
 
-  -m, --month          Returns download data for the past month
+  -t, --total          Display total module downloads (default)
+  -m, --month          Display module downloads for the past month
   -h, --help           Output usage information
   -V, --version        Output version number
 
 Examples:
 
-  $ npm-popular isaacs
   $ npm-popular substack
+  $ npm-popular tjholowaychuk -m

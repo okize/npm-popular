@@ -2,6 +2,13 @@
 registry = require('npm-stats')()
 when_ = require 'when'
 request = require 'request'
+chalk = require 'chalk'
+
+#cli colors
+cError = chalk.bold.red
+cAuthor = chalk.blue
+cCount = chalk.bold.white
+cModule = chalk.magenta
 
 clearTerminal = ->
   process.stdout.write '\u001B[2J\u001B[0;0f'
@@ -12,23 +19,29 @@ dateToday = ->
   month = ('0' + (now.getMonth() + 1)).slice(-2)
   "#{now.getFullYear()}-#{month}-#{day}"
 
-printAuthorModules = (type, author, count) ->
+printAuthorModules = (type, moduleAuthor, moduleCount) ->
+  author = cAuthor(moduleAuthor)
+  count = cCount(moduleCount)
   if type is 'month'
     console.log "#{author}'s module downloads in the last month:\n"
   else
     console.log "#{author} has published #{count} modules:\n"
 
 printModuleStats = (module) ->
-  console.log "☉ #{module.name} has been downloaded #{module.downloads} times"
+  name = cModule(module.name)
+  count = cCount(module.downloads)
+  console.log "☉ #{name} has been downloaded #{count} times"
 
 printModuleTotals = (data) ->
   printModuleStats module for module in data
 
 getDownloadsUrl = (type, module) ->
-  if type is 'month'
-    "https://api.npmjs.org/downloads/point/last-month/#{module}"
-  else
-    "https://api.npmjs.org/downloads/range/2012-01-01:#{dateToday()}/#{module}"
+  url = 'https://api.npmjs.org/downloads'
+  switch type
+    when 'month'
+      "#{url}/point/last-month/#{module}"
+    else
+      "#{url}/range/2012-01-01:#{dateToday()}/#{module}"
 
 getTotalDownloads = (data, key) ->
   if isNaN(data)
@@ -57,7 +70,7 @@ getAuthorsModules = (author) ->
     if err
       deferred.reject new Error(err)
     if data.length == 0
-      deferred.reject new Error("No NPM modules found for user #{author}!")
+      deferred.reject new Error(cError("No modules found for user #{author}!"))
     else
       deferred.resolve data
   )
@@ -109,8 +122,8 @@ module.exports = (author, opts) ->
 
   ).then( (data) ->
 
-    # console.log getTotalDownloads data, 'downloads'
-
     printModuleTotals(data)
+
+    # console.log getTotalDownloads data, 'downloads'
 
   )

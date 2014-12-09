@@ -15,5 +15,6 @@ Options:
 
 Examples:
 
+  $ npm-popular jdalton
   $ npm-popular substack
-  $ npm-popular tjholowaychuk -m
+  $ npm-popular hughsk -m

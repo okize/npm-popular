@@ -20,14 +20,18 @@ Description:
 
 Options:
 
-  -m, --month          Returns download data for the past month
+  -t, --total          Display total module downloads (default)
+  -m, --month          Display module downloads for the past month
+  -n, --noColor        Suppress colorization of output
   -h, --help           Output usage information
   -V, --version        Output version number
 
 Examples:
 
-  $ npm-popular isaacs
+  $ npm-popular jdalton
   $ npm-popular substack
+  $ npm-popular hughsk -m
+
 ```
 
 ## Installing

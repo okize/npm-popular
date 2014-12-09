@@ -4,11 +4,22 @@ when_ = require 'when'
 request = require 'request'
 chalk = require 'chalk'
 
-#cli colors
-cError = chalk.bold.red
-cAuthor = chalk.blue
-cCount = chalk.bold.white
-cModule = chalk.magenta
+# global setting to determine if colors are displayed or not
+showColors = true
+
+color = (type, str) ->
+  if showColors
+    switch type
+      when 'error'
+        chalk.bold.red str
+      when 'author'
+        chalk.blue str
+      when 'module'
+        chalk.magenta str
+      when 'count'
+        chalk.bold.white str
+  else
+    str
 
 clearTerminal = ->
   process.stdout.write '\u001B[2J\u001B[0;0f'
@@ -20,16 +31,16 @@ dateToday = ->
   "#{now.getFullYear()}-#{month}-#{day}"
 
 printAuthorModules = (type, moduleAuthor, moduleCount) ->
-  author = cAuthor(moduleAuthor)
-  count = cCount(moduleCount)
+  author = color('author', moduleAuthor)
+  count = color('count', moduleCount)
   if type is 'month'
     console.log "#{author}'s module downloads in the last month:\n"
   else
     console.log "#{author} has published #{count} modules:\n"
 
 printModuleStats = (module) ->
-  name = cModule(module.name)
-  count = cCount(module.downloads)
+  name = color('module', module.name)
+  count = color('count', module.downloads)
   console.log "☉ #{name} has been downloaded #{count} times"
 
 printModuleTotals = (data) ->
@@ -101,8 +112,9 @@ getAllModuleDownloads = (modules, type) ->
 
 module.exports = (author, opts) ->
 
-  # clear the terminal window
   clearTerminal()
+
+  showColors = false if opts.noColor
 
   getAuthorsModules(author).then( (modules) ->
 

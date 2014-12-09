@@ -10,6 +10,7 @@ Options:
 
   -t, --total          Display total module downloads (default)
   -m, --month          Display module downloads for the past month
+  -n, --noColor        Suppress colorization of output
   -h, --help           Output usage information
   -V, --version        Output version number
 

@@ -22,6 +22,7 @@ module.exports = (argv) ->
   flags =
     total: if argv.total or argv.t then true else false
     month: if argv.month or argv.m then true else false
+    noColor: if argv.noColor or argv.n then true else false
 
   # args passed
   return popular(argv._[0], flags) if argv._.length > 0

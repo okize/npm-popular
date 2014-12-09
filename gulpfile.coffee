@@ -98,4 +98,4 @@ gulp.task 'publish', (done) ->
 
 # releases new version of module
 gulp.task 'release', (done) ->
-  runSequence 'clean', ['docs', 'build'], 'bump', 'publish', done
+  runSequence 'clean', ['docs', 'build', 'bump'], 'publish', done

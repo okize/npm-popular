@@ -57,9 +57,9 @@ getAuthorsModules = (author) ->
     if err
       deferred.reject new Error(err)
     if data.length == 0
-      deferred.reject(new Error("No NPM modules found for user #{author}!"))
+      deferred.reject new Error("No NPM modules found for user #{author}!")
     else
-      deferred.resolve(data)
+      deferred.resolve data
   )
   deferred.promise
 
@@ -93,7 +93,7 @@ module.exports = (author, opts) ->
 
   getAuthorsModules(author).then( (modules) ->
 
-    type = if opts.month then 'month' else 'all-time'
+    type = if opts.month then 'month' else 'total'
 
     printAuthorModules(type, author, modules.length)
 

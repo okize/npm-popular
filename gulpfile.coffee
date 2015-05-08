@@ -1,14 +1,14 @@
 # modules
-path = require 'path'
-fs = require 'fs'
-gulp = require 'gulp'
-gutil = require 'gulp-util'
-coffee = require 'gulp-coffee'
-coffeelint = require 'gulp-coffeelint'
-template = require 'gulp-template'
-bump = require 'gulp-bump'
-clean = require 'del'
-runSequence = require 'run-sequence'
+path = require('path')
+fs = require('fs')
+gulp = require('gulp')
+gutil = require('gulp-util')
+coffee = require('gulp-coffee')
+coffeelint = require('gulp-coffeelint')
+template = require('gulp-template')
+bump = require('gulp-bump')
+clean = require('del')
+runSequence = require('run-sequence')
 spawn = require('child_process').spawn
 
 # configuration

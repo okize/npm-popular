@@ -1,12 +1,12 @@
 # modules
-path = require 'path'
-fs = require 'fs'
-popular = require path.join(__dirname, '.', 'app')
+path = require('path')
+fs = require('fs')
+popular = require(path.join(__dirname, '.', 'app'))
 
 # output version number of app
 displayVersion = ->
 
-  pkg = require path.join(__dirname, '..', 'package.json')
+  pkg = require(path.join(__dirname, '..', 'package.json'))
   console.log pkg.version
 
 # output help documentation of app

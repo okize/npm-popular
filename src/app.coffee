@@ -1,8 +1,8 @@
 # modules
 registry = require('npm-stats')()
-when_ = require 'when'
-request = require 'request'
-chalk = require 'chalk'
+when_ = require('when')
+request = require('request')
+chalk = require('chalk')
 
 # global setting to determine if colors are displayed or not
 showColors = true

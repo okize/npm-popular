@@ -25,7 +25,6 @@
     "del": "*",
     "gulp": "*",
     "gulp-bump": "*",
-    "gulp-clean": "*",
     "gulp-coffee": "*",
     "gulp-coffeelint": "*",
     "gulp-template": "*",

@@ -27,6 +27,7 @@
     "gulp-bump": "*",
     "gulp-coffee": "*",
     "gulp-coffeelint": "*",
+    "gulp-help": "*",
     "gulp-template": "*",
     "gulp-util": "*",
     "mocha": "*",

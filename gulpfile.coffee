@@ -1,14 +1,14 @@
 # modules
 path = require('path')
 fs = require('fs')
-gulp = require('gulp')
+gulp = require('gulp-help')(require('gulp'))
 gutil = require('gulp-util')
 coffee = require('gulp-coffee')
 coffeelint = require('gulp-coffeelint')
 template = require('gulp-template')
 bump = require('gulp-bump')
 clean = require('del')
-runSequence = require('run-sequence')
+run = require('run-sequence')
 spawn = require('child_process').spawn
 
 # configuration
@@ -25,18 +25,11 @@ log = (msg) ->
 getPackage = ->
   JSON.parse fs.readFileSync('./package.json', 'utf8')
 
-# default task that's run with 'gulp'
-gulp.task 'default', [
-  'watch'
-]
-
-# watches source files and triggers build on change
-gulp.task 'watch', ->
+gulp.task 'watch', 'Watches coffeescript files and triggers build on change.', ->
   log 'watching files...'
   gulp.watch sourceDir, ['build']
 
-# lints coffeescript
-gulp.task 'lint', ->
+gulp.task 'lint', 'Lints coffeescript.', ->
   log 'linting coffeescript'
   gulp
     .src(sourceDir)
@@ -44,11 +37,10 @@ gulp.task 'lint', ->
     .pipe(coffeelint.reporter())
 
 # removes distribution folder
-gulp.task 'clean', ->
+gulp.task 'clean', 'Deletes build directory.', ->
   clean [buildDir]
 
-# generates readme.md
-gulp.task 'docs', ->
+gulp.task 'docs', 'Generates readme file.', ->
   log 'creating documentation'
   gulp
     .src(readmeTemplate)
@@ -61,8 +53,7 @@ gulp.task 'docs', ->
       gulp.dest './'
     )
 
-# builds coffeescript source into deployable javascript
-gulp.task 'build', ->
+gulp.task 'build', 'Compiles coffeescript source into javascript.', ->
   log 'compiling coffeescript'
   gulp
     .src(sourceDir)
@@ -77,8 +68,7 @@ gulp.task 'build', ->
       gulp.dest buildDir
     )
 
-# bumps patch version
-gulp.task 'bump', ->
+gulp.task 'bump', 'Bumps patch version of module', ->
   log 'bumping version'
   gulp
     .src('./package.json')
@@ -89,13 +79,17 @@ gulp.task 'bump', ->
       gulp.dest appRoot
     )
 
-# publishes module to npm
-gulp.task 'publish', (done) ->
+gulp.task 'publish', 'Publishes module to npm', (done) ->
   log "publishing #{getPackage().name} version #{getPackage().version}"
   spawn('npm', ['publish'],
     stdio: 'inherit'
   ).on 'close', done
 
-# releases new version of module
-gulp.task 'release', (done) ->
-  runSequence 'clean', ['docs', 'build', 'bump'], 'publish', done
+gulp.task 'release', 'Builds module, bumps version & publishes to npm.', (done) ->
+  run(
+    'clean'
+    ['docs', 'build']
+    'bump'
+    'publish'
+    done
+  )

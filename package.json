@@ -13,6 +13,13 @@
     "modules",
     "downloads"
   ],
+  "scripts": {
+    "bump": "gulp bump",
+    "docs": "gulp docs",
+    "publish": "gulp publish",
+    "release": "gulp release",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "chalk": "^1.0.0",
     "npm-stats": "^1.0.0",
@@ -21,17 +28,11 @@
     "when": "^3.5.0"
   },
   "devDependencies": {
-    "coffeescript": "^1.0.0",
-    "del": "*",
-    "gulp": "*",
+    "gulp": "< 4",
     "gulp-bump": "*",
-    "gulp-coffee": "*",
-    "gulp-coffeelint": "*",
     "gulp-help": "*",
     "gulp-template": "*",
     "gulp-util": "*",
-    "mocha": "*",
-    "nock": "*",
     "run-sequence": "*"
   },
   "engines": {
@@ -40,9 +41,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/okize/npm-popular.git"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
     "name": "Morgan Wigmanich",

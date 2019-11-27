@@ -1,5 +1,5 @@
 const registry = require('npm-stats')();
-const when_ = require('when');
+const when = require('when');
 const request = require('request');
 const chalk = require('chalk');
 
@@ -16,6 +16,7 @@ const color = (type, str) => {
       case 'module':
         return chalk.magenta(str);
       case 'count':
+      default:
         return chalk.bold.white(str);
     }
   } else {
@@ -27,8 +28,8 @@ const clearTerminal = () => process.stdout.write('\u001B[2J\u001B[0;0f');
 
 const dateToday = () => {
   const now = new Date();
-  const day = ('0' + now.getDate()).slice(-2);
-  const month = ('0' + (now.getMonth() + 1)).slice(-2);
+  const day = `0${now.getDate()}`.slice(-2);
+  const month = `0${now.getMonth() + 1}`.slice(-2);
   return `${now.getFullYear()}-${month}-${day}`;
 };
 
@@ -37,9 +38,8 @@ const printAuthorModules = (type, moduleAuthor, moduleCount) => {
   const count = color('count', moduleCount);
   if (type === 'month') {
     return console.log(`${author}'s module downloads in the last month:\n`);
-  } else {
-    return console.log(`${author} has published ${count} modules:\n`);
   }
+  return console.log(`${author} has published ${count} modules:\n`);
 };
 
 const printModuleStats = (module) => {
@@ -61,67 +61,60 @@ const getDownloadsUrl = (type, module) => {
 };
 
 const getTotalDownloads = (data, key) => {
-  if (isNaN(data)) {
+  if (Number.isNaN(data)) {
     // apparently it's possible to have a package registered with NPM that
     // is invalid & is returned as undefined which necessitates this type check
     if (typeof data === 'object') {
-      let total;
-      return (total = Object.keys(data).reduce((previous, i) => previous + data[i][key], 0));
-    } else {
-      return (data = 0);
+      return Object.keys(data).reduce((previous, i) => previous + data[i][key], 0);
     }
-  } else if (data === null) {
-    return (data = 0);
-  } else {
-    return data;
+    data = 0;
   }
+  if (data === null) {
+    data = 0;
+  }
+  return data;
 };
 
-const sortModulesByDownloads = (arr, key) => {
-  let sorted;
-  return (sorted = arr.sort((a, b) => {
+const sortModulesByDownloads = (arr, key) =>
+  // eslint-disable-next-line implicit-arrow-linebreak
+  arr.sort((a, b) => {
     const x = a[key];
     const y = b[key];
     if (x > y) {
       return -1;
-    } else {
-      if (x < y) {
-        return 1;
-      } else {
-        return 0;
-      }
     }
-  }));
-};
+    if (x < y) {
+      return 1;
+    }
+    return 0;
+  });
 
 const getAuthorsModules = (author) => {
-  const deferred = when_.defer();
+  const deferred = when.defer();
   registry.user(author).list((err, data) => {
     if (err) {
       deferred.reject(new Error(err));
     }
     if (data.length === 0) {
-      return deferred.reject(new Error(cError(`No modules found for user ${author}!`)));
-    } else {
-      return deferred.resolve(data);
+      return deferred.reject(new Error(`No modules found for user ${author}!`));
     }
+    return deferred.resolve(data);
   });
   return deferred.promise;
 };
 
 const getModuleDownloads = (module, type) => {
-  const deferred = when_.defer();
+  const deferred = when.defer();
   const url = getDownloadsUrl(type, module);
   request(url, (err, response, body) => {
     if (err) {
       return deferred.reject(new Error(err));
-    } else {
-      const obj = {
-        name: module,
-        downloads: getTotalDownloads(JSON.parse(body).downloads, 'downloads'),
-      };
-      return deferred.resolve(obj);
     }
+    const obj = {
+      name: module,
+      downloads: getTotalDownloads(JSON.parse(body).downloads, 'downloads'),
+    };
+    return deferred.resolve(obj);
   });
   return deferred.promise;
 };
@@ -132,9 +125,9 @@ const getAllModuleDownloads = (modules, type) => {
   const len = modules.length;
   while (i < len) {
     deferreds.push(getModuleDownloads(modules[i], type));
-    i++;
+    i++; // eslint-disable-line no-plusplus
   }
-  when_.all(deferreds);
+  when.all(deferreds);
 };
 
 module.exports = (author, opts) => {

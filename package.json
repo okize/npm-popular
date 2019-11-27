@@ -14,10 +14,7 @@
     "downloads"
   ],
   "scripts": {
-    "bump": "gulp bump",
-    "docs": "gulp docs",
-    "publish": "gulp publish",
-    "release": "gulp release",
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -28,12 +25,7 @@
     "when": "^3.5.0"
   },
   "devDependencies": {
-    "gulp": "< 4",
-    "gulp-bump": "*",
-    "gulp-help": "*",
-    "gulp-template": "*",
-    "gulp-util": "*",
-    "run-sequence": "*"
+    "eslint-config-okize": "^1.5.0"
   },
   "engines": {
     "node": ">=0.10.0"

@@ -32,12 +32,9 @@
     "when": "^3.5.0"
   },
   "devDependencies": {
-    "coffeescript": "^1.0.0",
     "del": "*",
     "gulp": "< 4",
     "gulp-bump": "*",
-    "gulp-coffee": "*",
-    "gulp-coffeelint": "*",
     "gulp-help": "*",
     "gulp-template": "*",
     "gulp-util": "*",

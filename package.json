@@ -14,15 +14,11 @@
     "downloads"
   ],
   "scripts": {
-    "build": "gulp build",
     "bump": "gulp bump",
-    "clean": "gulp clean",
     "docs": "gulp docs",
-    "lint": "gulp lint",
     "publish": "gulp publish",
     "release": "gulp release",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "gulp watch"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "chalk": "^1.0.0",
@@ -32,7 +28,6 @@
     "when": "^3.5.0"
   },
   "devDependencies": {
-    "del": "*",
     "gulp": "< 4",
     "gulp-bump": "*",
     "gulp-help": "*",

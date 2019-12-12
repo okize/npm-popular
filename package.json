@@ -14,10 +14,6 @@
     "downloads"
   ],
   "scripts": {
-    "bump": "gulp bump",
-    "docs": "gulp docs",
-    "publish": "gulp publish",
-    "release": "gulp release",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -27,14 +23,7 @@
     "request": "^2.45.0",
     "when": "^3.5.0"
   },
-  "devDependencies": {
-    "gulp": "< 4",
-    "gulp-bump": "*",
-    "gulp-help": "*",
-    "gulp-template": "*",
-    "gulp-util": "*",
-    "run-sequence": "*"
-  },
+  "devDependencies": {},
   "engines": {
     "node": ">=0.10.0"
   },

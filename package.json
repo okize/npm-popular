@@ -23,7 +23,9 @@
     "request": "^2.45.0",
     "when": "^3.5.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint-config-okize": "^1.5.0"
+  },
   "engines": {
     "node": ">=0.10.0"
   },

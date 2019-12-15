@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+
 const popular = require(path.join(__dirname, '.', 'app'));
 
 // output version number of app
@@ -12,15 +13,15 @@ const displayVersion = () => {
 const displayHelp = () => {
   const filepath = path.join(__dirname, '..', 'lang', 'help.txt');
   const doc = fs.readFileSync(filepath, 'utf8');
-  console.log('\n' + doc + '\n');
+  console.log(`\n${doc}\n`);
 };
 
 module.exports = (argv) => {
   // flags we care about for app operation
   const flags = {
-    total: argv.total || argv.t ? true : false,
-    month: argv.month || argv.m ? true : false,
-    noColor: argv.noColor || argv.n ? true : false,
+    total: !!(argv.total || argv.t),
+    month: !!(argv.month || argv.m),
+    noColor: !!(argv.noColor || argv.n),
   };
 
   // args passed

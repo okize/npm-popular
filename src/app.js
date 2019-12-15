@@ -27,8 +27,8 @@ const clearTerminal = () => process.stdout.write('\u001B[2J\u001B[0;0f');
 
 const dateToday = () => {
   const now = new Date();
-  const day = ('0' + now.getDate()).slice(-2);
-  const month = ('0' + (now.getMonth() + 1)).slice(-2);
+  const day = (`0${now.getDate()}`).slice(-2);
+  const month = (`0${now.getMonth() + 1}`).slice(-2);
   return `${now.getFullYear()}-${month}-${day}`;
 };
 
@@ -37,9 +37,8 @@ const printAuthorModules = (type, moduleAuthor, moduleCount) => {
   const count = color('count', moduleCount);
   if (type === 'month') {
     return console.log(`${author}'s module downloads in the last month:\n`);
-  } else {
-    return console.log(`${author} has published ${count} modules:\n`);
   }
+  return console.log(`${author} has published ${count} modules:\n`);
 };
 
 const printModuleStats = (module) => {
@@ -67,14 +66,12 @@ const getTotalDownloads = (data, key) => {
     if (typeof data === 'object') {
       let total;
       return (total = Object.keys(data).reduce((previous, i) => previous + data[i][key], 0));
-    } else {
-      return (data = 0);
     }
-  } else if (data === null) {
     return (data = 0);
-  } else {
-    return data;
+  } if (data === null) {
+    return (data = 0);
   }
+  return data;
 };
 
 const sortModulesByDownloads = (arr, key) => {
@@ -84,13 +81,11 @@ const sortModulesByDownloads = (arr, key) => {
     const y = b[key];
     if (x > y) {
       return -1;
-    } else {
-      if (x < y) {
-        return 1;
-      } else {
-        return 0;
-      }
     }
+    if (x < y) {
+      return 1;
+    }
+    return 0;
   }));
 };
 
@@ -102,9 +97,8 @@ const getAuthorsModules = (author) => {
     }
     if (data.length === 0) {
       return deferred.reject(new Error(cError(`No modules found for user ${author}!`)));
-    } else {
-      return deferred.resolve(data);
     }
+    return deferred.resolve(data);
   });
   return deferred.promise;
 };
@@ -115,13 +109,12 @@ const getModuleDownloads = (module, type) => {
   request(url, (err, response, body) => {
     if (err) {
       return deferred.reject(new Error(err));
-    } else {
-      const obj = {
-        name: module,
-        downloads: getTotalDownloads(JSON.parse(body).downloads, 'downloads'),
-      };
-      return deferred.resolve(obj);
     }
+    const obj = {
+      name: module,
+      downloads: getTotalDownloads(JSON.parse(body).downloads, 'downloads'),
+    };
+    return deferred.resolve(obj);
   });
   return deferred.promise;
 };

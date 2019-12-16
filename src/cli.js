@@ -1,20 +1,16 @@
 const path = require('path');
 const fs = require('fs');
+const pkg = require('../package.json');
+const popular = require('./app');
 
-const popular = require(path.join(__dirname, '.', 'app'));
+const helpFile = path.join(__dirname, '..', 'lang', 'help.txt');
+const doc = fs.readFileSync(helpFile, 'utf8');
 
 // output version number of app
-const displayVersion = () => {
-  const pkg = require(path.join(__dirname, '..', 'package.json'));
-  console.log(pkg.version);
-};
+const displayVersion = () => console.log(pkg.version);
 
 // output help documentation of app
-const displayHelp = () => {
-  const filepath = path.join(__dirname, '..', 'lang', 'help.txt');
-  const doc = fs.readFileSync(filepath, 'utf8');
-  console.log(`\n${doc}\n`);
-};
+const displayHelp = () => console.log(`\n${doc}\n`);
 
 module.exports = (argv) => {
   // flags we care about for app operation
@@ -40,7 +36,5 @@ module.exports = (argv) => {
   }
 
   // no args so display help
-  if (!argv._.length) {
-    return displayHelp();
-  }
+  return displayHelp();
 };

@@ -1,6 +1,7 @@
 module.exports = {
   extends: ['okize/base'],
   rules: {
-    // add overrides here
+    'no-console': 'off',
+    'no-param-reassign': 'off',
   },
 };

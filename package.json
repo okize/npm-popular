@@ -18,7 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "chalk": "^1.0.0",
+    "chalk": "^2.0.0",
     "npm-stats": "^1.0.0",
     "optimist": "^0.6.0",
     "request": "^2.45.0",

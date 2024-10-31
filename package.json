@@ -18,14 +18,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "chalk": "^5.0.0",
-    "npm-stats": "^1.0.0",
-    "optimist": "^0.6.0",
-    "request": "^2.45.0",
-    "when": "^3.5.0"
+    "chalk": "^5.3.0",
+    "npm-stats": "^1.2.0",
+    "optimist": "^0.6.1",
+    "request": "^2.88.2",
+    "when": "^3.7.8"
   },
   "devDependencies": {
-    "eslint-config-okize": "^1.5.0"
+    "eslint-config-okize": "^1.7.0"
   },
   "engines": {
     "node": ">=18.0.0"
